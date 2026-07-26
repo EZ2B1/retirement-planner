@@ -1,0 +1,15 @@
+model:
+  start_year: 2026
+  projection_years: 30
+  inflation_rate: 0.025
+  default_return_rate: 0.07
+  calculation_frequency: annual
+features:
+  federal_tax: true
+  social_security_taxation: true
+  rmd: true
+  roth_conversion: true
+  irmaa: true
+  aca_ptc: true
+  healthcare: true
+  scenario_comparison: true

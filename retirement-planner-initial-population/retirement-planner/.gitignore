@@ -1,0 +1,12 @@
+/outputs/*
+!/outputs/.gitkeep
+/releases/*.zip
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*.xlsx

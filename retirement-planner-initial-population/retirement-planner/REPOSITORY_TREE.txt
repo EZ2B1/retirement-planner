@@ -1,0 +1,89 @@
+retirement-planner/
+📁 .github
+    📁 ISSUE_TEMPLATE
+        📄 calculation-defect.md
+        📄 feature-request.md
+    📄 pull_request_template.md
+    📁 workflows
+        📄 test.yml
+📄 .gitignore
+📄 CHANGELOG.md
+📄 CONTRIBUTING.md
+📄 LICENSE
+📄 README.md
+📄 ROADMAP.md
+📁 config
+    📄 model.yml
+    📄 tax-year-2026.yml
+📁 data
+    📁 reference
+        📄 README.md
+    📁 scenarios
+        📄 reference-household.yml
+📁 docs
+    📁 architecture
+        📄 SYSTEM_ARCHITECTURE.md
+    📁 design
+        📄 WORKBOOK_SPECIFICATION.md
+    📁 methodology
+        📄 CALCULATION_METHODOLOGY.md
+    📁 user-guide
+        📄 GETTING_STARTED.md
+📁 examples
+    📄 README.md
+📁 outputs
+    📄 .gitkeep
+    📁 csv
+    📁 excel
+    📁 pdf
+📄 pyproject.toml
+📁 releases
+    📄 README.md
+📄 requirements.txt
+📁 scripts
+    📄 build_workbook.py
+    📄 run_scenario.py
+📁 src
+    📁 retirement_planner
+        📄 __init__.py
+        📁 calculators
+            📄 __init__.py
+            📄 aca_ptc.py
+            📄 federal_tax.py
+            📄 healthcare.py
+            📄 irmaa.py
+            📄 portfolio.py
+            📄 rmd.py
+            📄 social_security.py
+        📁 engines
+            📄 __init__.py
+            📄 projection_engine.py
+            📄 scenario_engine.py
+        📁 models
+            📄 __init__.py
+            📄 assumptions.py
+            📄 household.py
+            📄 results.py
+        📁 optimizers
+            📄 __init__.py
+            📄 roth_conversion.py
+            📄 social_security_claiming.py
+            📄 withdrawal_sequence.py
+        📁 reporting
+            📄 __init__.py
+            📄 csv_exporter.py
+            📄 excel_builder.py
+            📄 pdf_report.py
+        📁 utils
+            📄 __init__.py
+            📄 config_loader.py
+            📄 validation.py
+📁 templates
+📁 tests
+    📁 calculators
+        📄 test_federal_tax.py
+    📁 integration
+        📄 test_repository_structure.py
+📁 workbooks
+    📁 reference
+        📄 README.md

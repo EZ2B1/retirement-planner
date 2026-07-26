@@ -1,0 +1,24 @@
+scenario_name: Reference Household
+household:
+  filing_status: married_filing_jointly
+  husband:
+    age_start: 68
+    social_security_annual: 34872.72
+    traditional_ira: 400000
+  wife:
+    age_start: 65
+    traditional_ira: 1200000
+    social_security_options:
+      age_65_monthly: 2818
+      age_67_monthly: 3252
+      age_70_monthly: 4032
+income:
+  pension_monthly: 799.45
+assumptions:
+  annual_return: 0.07
+  inflation: 0.025
+  projection_end_age_husband: 95
+strategy:
+  roth_conversion_optimizer: true
+  irmaa_guardrails: true
+  aca_guardrails: true

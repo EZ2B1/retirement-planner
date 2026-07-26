@@ -1,0 +1,5 @@
+tax_year: 2026
+status: placeholder-review-required
+notes:
+  - Replace placeholders with verified 2026 federal data.
+  - Preserve sources, effective dates, and review status.
