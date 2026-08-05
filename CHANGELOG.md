@@ -12,3 +12,7 @@
 - Workbook generator scaffold
 - Tax, RMD, IRMAA, ACA, Social Security, and Roth conversion modules
 - Scenario configuration and test framework
+
+### Fixed
+
+- Reject malformed federal tax bracket schedules that could silently understate tax
