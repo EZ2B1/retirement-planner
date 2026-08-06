@@ -12,6 +12,18 @@ from typing import Any, Iterable
 import yaml
 
 _DEFAULT_RULE_TABLE = files("retirement_planner").joinpath("data/rmd_applicable_age.yml")
+_VERIFIED_STATUS = "verified"
+
+
+@dataclass(frozen=True)
+class RuleTableProvenance:
+    """Source and review metadata for one effective-year rule set."""
+
+    source_citation: str
+    source_url: str
+    source_revision_date: date
+    verification_status: str
+    verified_on: date
 
 
 @dataclass(frozen=True)
@@ -35,20 +47,52 @@ class ApplicableAgeRuleSet:
     """RMD applicable-age rules effective for a source year."""
 
     effective_year: int
+    provenance: RuleTableProvenance
     rules: tuple[ApplicableAgeRule, ...]
 
 
-def _parse_date(value: Any, field_name: str) -> date | None:
+def _parse_date(value: Any, field_name: str, *, allow_none: bool = True) -> date | None:
     if value is None:
-        return None
+        if allow_none:
+            return None
+        raise ValueError(f"{field_name} is required")
     if isinstance(value, date):
         return value
-    if not isinstance(value, str):
-        raise ValueError(f"{field_name} must be an ISO date string or null")
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{field_name} must be an ISO date string")
     try:
         return date.fromisoformat(value)
     except ValueError as exc:
         raise ValueError(f"{field_name} must use YYYY-MM-DD format") from exc
+
+
+def _required_text(value: Any, field_name: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{field_name} is required and must be nonempty")
+    return value.strip()
+
+
+def _parse_provenance(value: Any) -> RuleTableProvenance:
+    if not isinstance(value, dict):
+        raise ValueError("provenance must be a mapping")
+
+    status = _required_text(value.get("verification_status"), "verification_status").lower()
+    if status != _VERIFIED_STATUS:
+        raise ValueError("verification_status must be 'verified' before the rule set can be used")
+
+    source_url = _required_text(value.get("source_url"), "source_url")
+    if not source_url.startswith(("https://", "http://")):
+        raise ValueError("source_url must be an absolute HTTP or HTTPS URL")
+
+    return RuleTableProvenance(
+        source_citation=_required_text(value.get("source_citation"), "source_citation"),
+        source_url=source_url,
+        source_revision_date=_parse_date(
+            value.get("source_revision_date"), "source_revision_date", allow_none=False
+        ),
+        verification_status=status,
+        verified_on=_parse_date(value.get("verified_on"), "verified_on", allow_none=False),
+    )
 
 
 def _parse_age(value: Any) -> float:
@@ -92,6 +136,33 @@ def _validate_rules(rules: Iterable[ApplicableAgeRule]) -> tuple[ApplicableAgeRu
     return validated
 
 
+def validate_applicable_age_rule_sets(
+    rule_sets: Iterable[ApplicableAgeRuleSet],
+) -> tuple[ApplicableAgeRuleSet, ...]:
+    """Validate effective-year ordering, provenance, and birth-date rules."""
+
+    validated = tuple(rule_sets)
+    if not validated:
+        raise ValueError("at least one RMD applicable-age rule set is required")
+
+    previous_effective_year: int | None = None
+    for rule_set in validated:
+        if isinstance(rule_set.effective_year, bool) or not isinstance(rule_set.effective_year, int):
+            raise ValueError("effective_year must be an integer")
+        if previous_effective_year is not None and rule_set.effective_year <= previous_effective_year:
+            raise ValueError("rule-set effective years must increase strictly")
+        if rule_set.provenance.verification_status != _VERIFIED_STATUS:
+            raise ValueError("verification_status must be 'verified' before the rule set can be used")
+        if not rule_set.provenance.source_citation.strip():
+            raise ValueError("source_citation is required and must be nonempty")
+        if not rule_set.provenance.source_url.startswith(("https://", "http://")):
+            raise ValueError("source_url must be an absolute HTTP or HTTPS URL")
+        _validate_rules(rule_set.rules)
+        previous_effective_year = rule_set.effective_year
+
+    return validated
+
+
 def load_applicable_age_rule_sets(
     path: str | Path | None = None,
 ) -> tuple[ApplicableAgeRuleSet, ...]:
@@ -111,8 +182,6 @@ def load_applicable_age_rule_sets(
         raise ValueError("RMD applicable-age rule table must contain rule_sets")
 
     parsed: list[ApplicableAgeRuleSet] = []
-    previous_effective_year: int | None = None
-
     for raw_rule_set in raw_rule_sets:
         if not isinstance(raw_rule_set, dict):
             raise ValueError("each rule set must be a mapping")
@@ -120,8 +189,6 @@ def load_applicable_age_rule_sets(
         effective_year = raw_rule_set.get("effective_year")
         if isinstance(effective_year, bool) or not isinstance(effective_year, int):
             raise ValueError("effective_year must be an integer")
-        if previous_effective_year is not None and effective_year <= previous_effective_year:
-            raise ValueError("rule-set effective years must increase strictly")
 
         raw_rules = raw_rule_set.get("rules")
         if not isinstance(raw_rules, list):
@@ -143,10 +210,15 @@ def load_applicable_age_rule_sets(
         if len(rules) != len(raw_rules):
             raise ValueError("each rule must be a mapping")
 
-        parsed.append(ApplicableAgeRuleSet(effective_year=effective_year, rules=rules))
-        previous_effective_year = effective_year
+        parsed.append(
+            ApplicableAgeRuleSet(
+                effective_year=effective_year,
+                provenance=_parse_provenance(raw_rule_set.get("provenance")),
+                rules=rules,
+            )
+        )
 
-    return tuple(parsed)
+    return validate_applicable_age_rule_sets(parsed)
 
 
 def determine_applicable_rmd_age(
@@ -154,19 +226,18 @@ def determine_applicable_rmd_age(
     source_year: int,
     rule_sets: Iterable[ApplicableAgeRuleSet] | None = None,
 ) -> float:
-    """Return the applicable RMD age for a birth date and source year.
-
-    ``source_year`` selects the latest rule set whose effective year is not
-    later than the requested source year. This prevents a universal hard-coded
-    RMD age from leaking into calculations and supports historical rule sets.
-    """
+    """Return the applicable RMD age for a birth date and source year."""
 
     if not isinstance(date_of_birth, date):
         raise TypeError("date_of_birth must be a datetime.date")
     if isinstance(source_year, bool) or not isinstance(source_year, int):
         raise TypeError("source_year must be an integer")
 
-    available = tuple(rule_sets) if rule_sets is not None else load_applicable_age_rule_sets()
+    available = (
+        validate_applicable_age_rule_sets(rule_sets)
+        if rule_sets is not None
+        else load_applicable_age_rule_sets()
+    )
     selected = [rule_set for rule_set in available if rule_set.effective_year <= source_year]
     if not selected:
         raise ValueError(f"no RMD applicable-age rules are available for source year {source_year}")
