@@ -12,6 +12,9 @@ dependencies = ["openpyxl>=3.1", "pandas>=2.2", "numpy>=2.0", "PyYAML>=6.0"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+retirement_planner = ["data/*.yml"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
