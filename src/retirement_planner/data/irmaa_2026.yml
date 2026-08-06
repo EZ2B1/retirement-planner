@@ -11,20 +11,20 @@ provenance:
   verification_status: "verified"
 filing_status_tables:
   single:
-    - {tier: 0, lower_exclusive: null, upper_inclusive: 109000, part_b_irmaa_monthly: 0.00, part_d_irmaa_monthly: 0.00}
-    - {tier: 1, lower_exclusive: 109000, upper_inclusive: 137000, part_b_irmaa_monthly: 81.20, part_d_irmaa_monthly: 14.50}
-    - {tier: 2, lower_exclusive: 137000, upper_inclusive: 171000, part_b_irmaa_monthly: 202.90, part_d_irmaa_monthly: 37.50}
-    - {tier: 3, lower_exclusive: 171000, upper_inclusive: 205000, part_b_irmaa_monthly: 324.60, part_d_irmaa_monthly: 60.40}
-    - {tier: 4, lower_exclusive: 205000, upper_inclusive: 499999.99, part_b_irmaa_monthly: 446.30, part_d_irmaa_monthly: 83.30}
-    - {tier: 5, lower_exclusive: 499999.99, upper_inclusive: null, part_b_irmaa_monthly: 487.00, part_d_irmaa_monthly: 91.00}
+    - {tier: 0, lower_bound: null, lower_inclusive: true, upper_bound: 109000, upper_inclusive: true, part_b_irmaa_monthly: 0.00, part_d_irmaa_monthly: 0.00}
+    - {tier: 1, lower_bound: 109000, lower_inclusive: false, upper_bound: 137000, upper_inclusive: true, part_b_irmaa_monthly: 81.20, part_d_irmaa_monthly: 14.50}
+    - {tier: 2, lower_bound: 137000, lower_inclusive: false, upper_bound: 171000, upper_inclusive: true, part_b_irmaa_monthly: 202.90, part_d_irmaa_monthly: 37.50}
+    - {tier: 3, lower_bound: 171000, lower_inclusive: false, upper_bound: 205000, upper_inclusive: true, part_b_irmaa_monthly: 324.60, part_d_irmaa_monthly: 60.40}
+    - {tier: 4, lower_bound: 205000, lower_inclusive: false, upper_bound: 500000, upper_inclusive: false, part_b_irmaa_monthly: 446.30, part_d_irmaa_monthly: 83.30}
+    - {tier: 5, lower_bound: 500000, lower_inclusive: true, upper_bound: null, upper_inclusive: true, part_b_irmaa_monthly: 487.00, part_d_irmaa_monthly: 91.00}
   married_filing_jointly:
-    - {tier: 0, lower_exclusive: null, upper_inclusive: 218000, part_b_irmaa_monthly: 0.00, part_d_irmaa_monthly: 0.00}
-    - {tier: 1, lower_exclusive: 218000, upper_inclusive: 274000, part_b_irmaa_monthly: 81.20, part_d_irmaa_monthly: 14.50}
-    - {tier: 2, lower_exclusive: 274000, upper_inclusive: 342000, part_b_irmaa_monthly: 202.90, part_d_irmaa_monthly: 37.50}
-    - {tier: 3, lower_exclusive: 342000, upper_inclusive: 410000, part_b_irmaa_monthly: 324.60, part_d_irmaa_monthly: 60.40}
-    - {tier: 4, lower_exclusive: 410000, upper_inclusive: 749999.99, part_b_irmaa_monthly: 446.30, part_d_irmaa_monthly: 83.30}
-    - {tier: 5, lower_exclusive: 749999.99, upper_inclusive: null, part_b_irmaa_monthly: 487.00, part_d_irmaa_monthly: 91.00}
+    - {tier: 0, lower_bound: null, lower_inclusive: true, upper_bound: 218000, upper_inclusive: true, part_b_irmaa_monthly: 0.00, part_d_irmaa_monthly: 0.00}
+    - {tier: 1, lower_bound: 218000, lower_inclusive: false, upper_bound: 274000, upper_inclusive: true, part_b_irmaa_monthly: 81.20, part_d_irmaa_monthly: 14.50}
+    - {tier: 2, lower_bound: 274000, lower_inclusive: false, upper_bound: 342000, upper_inclusive: true, part_b_irmaa_monthly: 202.90, part_d_irmaa_monthly: 37.50}
+    - {tier: 3, lower_bound: 342000, lower_inclusive: false, upper_bound: 410000, upper_inclusive: true, part_b_irmaa_monthly: 324.60, part_d_irmaa_monthly: 60.40}
+    - {tier: 4, lower_bound: 410000, lower_inclusive: false, upper_bound: 750000, upper_inclusive: false, part_b_irmaa_monthly: 446.30, part_d_irmaa_monthly: 83.30}
+    - {tier: 5, lower_bound: 750000, lower_inclusive: true, upper_bound: null, upper_inclusive: true, part_b_irmaa_monthly: 487.00, part_d_irmaa_monthly: 91.00}
   married_filing_separately_lived_with_spouse:
-    - {tier: 0, lower_exclusive: null, upper_inclusive: 109000, part_b_irmaa_monthly: 0.00, part_d_irmaa_monthly: 0.00}
-    - {tier: 4, lower_exclusive: 109000, upper_inclusive: 390999.99, part_b_irmaa_monthly: 446.30, part_d_irmaa_monthly: 83.30}
-    - {tier: 5, lower_exclusive: 390999.99, upper_inclusive: null, part_b_irmaa_monthly: 487.00, part_d_irmaa_monthly: 91.00}
+    - {tier: 0, lower_bound: null, lower_inclusive: true, upper_bound: 109000, upper_inclusive: true, part_b_irmaa_monthly: 0.00, part_d_irmaa_monthly: 0.00}
+    - {tier: 4, lower_bound: 109000, lower_inclusive: false, upper_bound: 391000, upper_inclusive: false, part_b_irmaa_monthly: 446.30, part_d_irmaa_monthly: 83.30}
+    - {tier: 5, lower_bound: 391000, lower_inclusive: true, upper_bound: null, upper_inclusive: true, part_b_irmaa_monthly: 487.00, part_d_irmaa_monthly: 91.00}
