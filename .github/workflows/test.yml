@@ -1,8 +1,6 @@
 name: Test Retirement Planner
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/5 * * * *"
   push:
     branches: [main, develop]
   pull_request:
