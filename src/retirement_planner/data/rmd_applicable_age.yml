@@ -1,11 +1,23 @@
 schema_version: 1
 rule_sets:
   - effective_year: 2019
+    provenance:
+      source_citation: "Treasury Decision 10001, 89 FR 58886, 26 CFR 1.401(a)(9)-2(b)(2)"
+      source_url: "https://www.irs.gov/irb/2024-33_IRB"
+      source_revision_date: "2024-07-19"
+      verification_status: "verified"
+      verified_on: "2026-08-06"
     rules:
       - born_on_or_after: null
         born_on_or_before: null
         applicable_age: 70.5
   - effective_year: 2020
+    provenance:
+      source_citation: "Treasury Decision 10001, 89 FR 58886, 26 CFR 1.401(a)(9)-2(b)(2)"
+      source_url: "https://www.irs.gov/irb/2024-33_IRB"
+      source_revision_date: "2024-07-19"
+      verification_status: "verified"
+      verified_on: "2026-08-06"
     rules:
       - born_on_or_after: null
         born_on_or_before: "1949-06-30"
@@ -14,6 +26,12 @@ rule_sets:
         born_on_or_before: null
         applicable_age: 72
   - effective_year: 2023
+    provenance:
+      source_citation: "Treasury Decision 10001, 89 FR 58886, 26 CFR 1.401(a)(9)-2(b)(2)"
+      source_url: "https://www.irs.gov/irb/2024-33_IRB"
+      source_revision_date: "2024-07-19"
+      verification_status: "verified"
+      verified_on: "2026-08-06"
     rules:
       - born_on_or_after: null
         born_on_or_before: "1949-06-30"
